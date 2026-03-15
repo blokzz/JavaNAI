@@ -17,7 +17,30 @@ public class Perceptron {
         this.treshold = 0;
     }
 
-    public void train(List<Observation> dataset) {
+    public void train(List<Observation> dataset, int epochs) {
+        for (int epoch = 0; epoch < epochs; epoch++) {
+            for (Observation obs : dataset) {
+                double[] features = obs.getFeatures();
+                double label = obs.getLabel();
+                double output = activationFunction(features);
+                double error = label - output;
+                updateWeights(features, error);
+            }
+        }
+    }
 
+    private double activationFunction(double[] features) {
+        double sum = 0;
+        for (int i = 0; i < features.length; i++) {
+            sum += features[i] * weights[i];
+        }
+        return sum > treshold ? 1 : 0;
+    }
+
+    private void updateWeights(double[] features, double error) {
+        for (int i = 0; i < features.length; i++) {
+            weights[i] += learningRate * error * features[i];
+        }
+        treshold -= learningRate * error;
     }
 }
