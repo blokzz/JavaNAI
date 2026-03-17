@@ -9,11 +9,11 @@ public class Perceptron {
     private double learningRate;
     private double beta;
 
-    public Perceptron(int dimension, double learningRate, double beta) {
+    public Perceptron(int dimension, double learningRate, double beta, double[] weights) {
         this.dimension = dimension;
         this.learningRate = learningRate;
         this.beta = beta;
-        this.weights = new double[dimension];
+        this.weights = weights;
         this.treshold = 0;
     }
 
@@ -42,5 +42,13 @@ public class Perceptron {
             weights[i] += learningRate * error * features[i];
         }
         treshold -= learningRate * error;
+    }
+
+    public double[] predict(List<Observation> dataset) {
+        double[] predictions = new double[dataset.size()];
+        for (int i = 0; i < dataset.size(); i++) {
+            predictions[i] = activationFunction(dataset.get(i).getFeatures());
+        }
+        return predictions;
     }
 }

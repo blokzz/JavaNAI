@@ -49,17 +49,17 @@ public class PrepareDataset {
     public Map<String, List<Observation>> trainTestSplit(List<Observation> dataset) {
         Map<String, List<Observation>> groupedData = new HashMap<>();
         for (Observation obs : dataset) {
-            // groupedData.computeIfAbsent(obs.getLabel(), k -> new ArrayList<>()).add(obs);
+            groupedData.computeIfAbsent(String.valueOf(obs.getLabel()), k -> new ArrayList<>()).add(obs);
         }
 
         List<Observation> trainingData = new ArrayList<>();
         List<Observation> testData = new ArrayList<>();
 
-        Random random = new Random(42);
+        Random random = new Random();
         for (List<Observation> group : groupedData.values()) {
             Collections.shuffle(group, random);
 
-            int trainSize = (int) Math.round(group.size() * 0.66);
+            int trainSize = (int) Math.round(group.size() * 0.3);
 
             for (int i = 0; i < group.size(); i++) {
                 if (i < trainSize) {
