@@ -31,14 +31,14 @@ public class Perceptron {
 
     private double activationFunction(double[] features) {
         double sum = 0;
-        for (int i = 0; i < features.length; i++) {
+        for (int i = 0; i < dimension; i++) {
             sum += features[i] * weights[i];
         }
         return sum > treshold ? 1 : 0;
     }
 
     private void updateWeights(double[] features, double error) {
-        for (int i = 0; i < features.length; i++) {
+        for (int i = 0; i < dimension; i++) {
             weights[i] += learningRate * error * features[i];
         }
         treshold -= learningRate * error;

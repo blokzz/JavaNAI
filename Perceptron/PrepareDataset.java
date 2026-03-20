@@ -29,9 +29,11 @@ public class PrepareDataset {
                 if (label.toLowerCase().equals("virginica")) {
                     continue;
                 }
-                double[] features = new double[2];
-                features[0] = Double.parseDouble(parts[2]);
-                features[1] = Double.parseDouble(parts[3]);
+                double[] features = new double[4];
+                features[0] = Double.parseDouble(parts[0]);
+                features[1] = Double.parseDouble(parts[1]);
+                features[2] = Double.parseDouble(parts[2]);
+                features[3] = Double.parseDouble(parts[3]);
                 double labelValue = label.toLowerCase().equals("setosa") ? 1 : 0;
                 data.add(new Observation(features, labelValue));
             }
