@@ -14,7 +14,8 @@ public class Main {
         List<Observation> trainData = trainTestSplit.get("train");
         List<Observation> testData = trainTestSplit.get("test");
         int[] epochs = { 1, 3, 10, 50, 100 };
-        double[] weights = { Math.random(), Math.random(), Math.random(), Math.random(), Math.random() };
+        double[] weights = { Math.random(), Math.random() };
+        Perceptron bestModel = null;
         for (int epoch : epochs) {
             Perceptron p = new Perceptron(2, 0.02, 0.7, weights);
             p.train(trainData, epoch);
@@ -25,6 +26,11 @@ public class Main {
             }
             System.out.println(
                     "Accuracy for " + epoch + " epochs: " + EvaluationMetrics.measureAccuracy(trueLabels, predicted));
+            bestModel = p;
+        }
+
+        if (bestModel != null) {
+            Visualizer.showPlot(testData, bestModel.getWeights(), bestModel.getTreshold());
         }
 
     }

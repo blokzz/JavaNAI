@@ -29,10 +29,9 @@ public class PrepareDataset {
                 if (label.toLowerCase().equals("virginica")) {
                     continue;
                 }
-                double[] features = new double[parts.length - 1];
-                for (int i = 0; i < parts.length - 1; i++) {
-                    features[i] = Double.parseDouble(parts[i]);
-                }
+                double[] features = new double[2];
+                features[0] = Double.parseDouble(parts[2]);
+                features[1] = Double.parseDouble(parts[3]);
                 double labelValue = label.toLowerCase().equals("setosa") ? 1 : 0;
                 data.add(new Observation(features, labelValue));
             }
@@ -59,7 +58,7 @@ public class PrepareDataset {
         for (List<Observation> group : groupedData.values()) {
             Collections.shuffle(group, random);
 
-            int trainSize = (int) Math.round(group.size() * 0.3);
+            int trainSize = (int) Math.round(group.size() * 0.7);
 
             for (int i = 0; i < group.size(); i++) {
                 if (i < trainSize) {

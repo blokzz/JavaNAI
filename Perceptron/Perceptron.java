@@ -51,4 +51,12 @@ public class Perceptron {
         }
         return predictions;
     }
+
+    public double[] getWeights() {
+        return weights;
+    }
+
+    public double getTreshold() {
+        return treshold;
+    }
 }
