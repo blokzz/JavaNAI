@@ -2,9 +2,9 @@ package SingleLayer;
 
 public class Observation {
     private double[] features;
-    private double label;
+    private String label;
 
-    public Observation(double[] features, double label) {
+    public Observation(double[] features, String label) {
         this.features = features;
         this.label = label;
     }
@@ -13,7 +13,7 @@ public class Observation {
         return features;
     }
 
-    public double getLabel() {
+    public String getLabel() {
         return label;
     }
 }
