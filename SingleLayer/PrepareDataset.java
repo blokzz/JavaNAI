@@ -18,22 +18,27 @@ public class PrepareDataset {
         this.path = path;
     }
 
-    public List<Observation> readDataset() {
-        List<String> languages = new ArrayList<>(
-                List.of("polish", "english", "spanish", "french", "finnish", "indonesian"));
-        Map<String, Integer> letters = new HashMap<>();
-        for (int i = 0; i < 26; i++) {
-            letters.put(String.valueOf((char) ('a' + i)), 0);
-        }
+    public List<Observation> readDataset(String... languages) {
         List<Observation> data = new ArrayList<>();
+        List<String> languagesList = new ArrayList<>(List.of(languages));
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
             String line;
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String label = parts[parts.length - 1];
-                if (languages.contains(label.toLowerCase())) {
-                    String redactedLine = parts[0].toLowerCase().trim().replace(" ", "");
+                int lastCommaIndex = line.lastIndexOf(',');
+                if (lastCommaIndex <= 0)
+                    continue;
+
+                String label = line.substring(lastCommaIndex + 1).trim();
+                String text = line.substring(0, lastCommaIndex);
+
+                if (languagesList.contains(label.toLowerCase())) {
+                    Map<String, Integer> letters = new HashMap<>();
+                    for (int i = 0; i < 26; i++) {
+                        letters.put(String.valueOf((char) ('a' + i)), 0);
+                    }
+
+                    String redactedLine = text.toLowerCase().trim().replace(" ", "");
                     for (char c : redactedLine.toCharArray()) {
                         if (c >= 'a' && c <= 'z') {
                             letters.put(String.valueOf(c), letters.get(String.valueOf(c)) + 1);
@@ -41,7 +46,7 @@ public class PrepareDataset {
                     }
                     double[] features = new double[26];
                     for (int i = 0; i < 26; i++) {
-                        features[i] = letters.get(String.valueOf((char) ('a' + i)));
+                        features[i] = (double) letters.get(String.valueOf((char) ('a' + i))) / redactedLine.length();
                     }
                     data.add(new Observation(features, label));
                 }
