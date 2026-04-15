@@ -4,3 +4,4 @@ Current models:
 - K-Nearest Neighbors
 - Single Perceptron
 - Single Layer of Perceptrons
+- Naive Bayes
