@@ -102,13 +102,13 @@ public class NaiveBayesClassifier {
             }
         }
 
-        if (!applySmoothingAll) {
+        if (applySmoothingAll || countFeatureAndLabel == 0) {
+            long uniqueValuesCount = countUniqueFeaturesAt(featureIndex);
+            return (double) (countFeatureAndLabel + 1) / (countLabel + uniqueValuesCount);
+        } else {
             if (countLabel == 0)
                 return 0.0;
             return (double) countFeatureAndLabel / countLabel;
-        } else {
-            long uniqueValuesCount = countUniqueFeaturesAt(featureIndex);
-            return (double) (countFeatureAndLabel + 1) / (countLabel + uniqueValuesCount);
         }
     }
 
